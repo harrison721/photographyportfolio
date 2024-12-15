@@ -1,8 +1,11 @@
 export interface FileData {
   url: string;
-  name: string;
+  path: string;
+  folderPath: string;
+  folderName: string;
   size: number;
   lastModified: string;
+  type?: string;
 }
 
 export interface FolderData {
@@ -45,6 +48,7 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
 
   Array.from(contents).forEach((content) => {
     const key = content.getElementsByTagName("Key")[0]?.textContent || "";
+    const type = content.getElementsByTagName("Tag")[0]?.textContent || "";
     const size = parseInt(content.getElementsByTagName("Size")[0]?.textContent || "0", 10);
     const lastModified = content.getElementsByTagName("LastModified")[0]?.textContent || "";
 
@@ -53,18 +57,43 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
       return;
     }
 
+    console.log("type: ", type);
+
     // Separate folders and files
     if (key.endsWith("/")) {
       folders.push({ name: key });
     } else {
       files.push({
         url: `${BASE_URL}/${key}`,
-        name: `${key}`,
+        path: `${key}`,
+        folderPath: `${removeFileName(key)}/`,
+        folderName: `${getFormattedFolderName(key)}`,
         size,
         lastModified,
+        type,
       });
     }
   });
 
   return { folders, files };
+}
+
+// Function to remove the file name from the path
+function removeFileName(path: string): string {
+  const parts = path.split("/"); // Split the path into parts
+  return parts.slice(0, -1).join("/"); // Remove the last part (file name) and join back
+}
+
+// Function to extract and format the folder name
+function getFormattedFolderName(path: string): string {
+  const parts = removeFileName(path).split("/"); // Get path without file name and split into parts
+  const year = parts[1]; // Extract the year (always the second part)
+  const folder = parts[2]; // Extract the folder (third part, if exists)
+
+  if (folder) {
+      // Replace dashes with spaces in the folder name
+      const formattedFolder = folder.replace(/-/g, " ");
+      return `${formattedFolder} ${year}`; // Format as "Folder Year" (e.g., "Oregon Coast 2022")
+  }
+  return year; // If no folder, return just the year
 }

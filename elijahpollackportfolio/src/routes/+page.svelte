@@ -3,18 +3,20 @@
   import { fetchData, type FileData, type FolderData } from "../utils/dataLoader.ts";
   import GalleryGrid from '../components/gallery/GalleryGrid.svelte';
   import Navbar from "../components/common/Navbar.svelte";
+  import Footer from "../components/common/Footer.svelte";
   import '../app.css';
   
   let folders: FolderData[] = [];
   let files: FileData[] = [];
   let currentFolder = "photos/";
-  
+  let scrollContainer: HTMLDivElement;
+
   onMount(() => {
     loadFolder(currentFolder);
   });
 
-  function handleFolderSelected(event: { detail: string; }) {
-    loadFolder(event.detail);
+  function handleFolderSelected(folderPath: string) {
+    loadFolder(folderPath);
   }
   
   async function loadFolder(folder: string) {
@@ -23,9 +25,10 @@
       currentFolder = folder;
   
       folders = data.folders.filter((f) => f.name.startsWith(folder) && f.name !== folder);
-      files = data.files.filter((f) => f.name.startsWith(folder));
+      files = data.files.filter((f) => f.folderPath.startsWith(folder));
 
-      // reverse order of files
+      // reverse order of folders and files
+      folders = folders.reverse();
       files = files.reverse();
   
     } catch (error) {
@@ -40,12 +43,23 @@
     <Navbar
       {folders}
       {currentFolder}
-      on:folderSelected={handleFolderSelected}
+      onFolderSelected={handleFolderSelected}
     />
   </div>
   
-  <!-- Display Files -->
-  <div class="flex-grow overflow-y-auto">
-    <GalleryGrid {files} />
+  <!-- Scrollable Container -->
+  <!-- We use relative positioning and place the footer inside this same container -->
+  <div class="relative flex-grow overflow-y-auto" bind:this={scrollContainer}>
+
+    <!-- Gallery Grid -->
+    <div class="pb-16"> <!-- Add bottom padding so content is visible above the footer -->
+      <GalleryGrid
+        {files}
+        onFolderSelected={handleFolderSelected}
+      />
+    </div>
+
+    <!-- Footer -->
+    <Footer {scrollContainer} />
   </div>
 </div>
