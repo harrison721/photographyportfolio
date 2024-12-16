@@ -48,7 +48,6 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
 
   Array.from(contents).forEach((content) => {
     const key = content.getElementsByTagName("Key")[0]?.textContent || "";
-    const type = content.getElementsByTagName("Tag")[0]?.textContent || "";
     const size = parseInt(content.getElementsByTagName("Size")[0]?.textContent || "0", 10);
     const lastModified = content.getElementsByTagName("LastModified")[0]?.textContent || "";
 
@@ -56,8 +55,6 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
       console.warn("Skipping empty key:", content);
       return;
     }
-
-    console.log("type: ", type);
 
     // Separate folders and files
     if (key.endsWith("/")) {
@@ -67,10 +64,10 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
         url: `${BASE_URL}/${key}`,
         path: `${key}`,
         folderPath: `${removeFileName(key)}/`,
-        folderName: `${getFormattedFolderName(key)}`,
+        folderName: getFormattedFolderName(key),
         size,
         lastModified,
-        type,
+        type: getFirstLetter(key),
       });
     }
   });
@@ -96,4 +93,11 @@ function getFormattedFolderName(path: string): string {
       return `${formattedFolder} ${year}`; // Format as "Folder Year" (e.g., "Oregon Coast 2022")
   }
   return year; // If no folder, return just the year
+}
+
+// Function that gets the first letter of the file name at the end of the path
+function getFirstLetter(path: string): string {
+  const parts = path.split("/"); // Split the path into parts
+  const fileName = parts[parts.length - 1]; // Get the last part (file name)
+  return fileName.charAt(0); // Get the first character of the file name
 }

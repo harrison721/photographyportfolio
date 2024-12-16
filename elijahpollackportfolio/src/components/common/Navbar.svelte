@@ -4,7 +4,9 @@
      */
     export let folders: any[] = [];
     export let currentFolder = 'photos/';
+    export let sortingType = 'l';
     export let onFolderSelected = (folderPath: string) => {};
+    export let onSortingSelected = (type: string) => {};
 
     let isNavOpen = false; // Controls nav bar visibility (dropdown-style)
 
@@ -12,19 +14,24 @@
       isNavOpen = !isNavOpen;
     }
 
+    // Go to root folder
     function goHome() {
       selectFolder('photos/');
       toggleNav();
     }
 
-    /**
-     * Dispatch an event for the parent to handle
-     * @param {string} folderPath
-     */
+    //select folders
     function selectFolder(folderPath: string) {
       onFolderSelected(folderPath);
     }
 
+    //select sorting
+    function selectSorting(type: string) {
+      onSortingSelected(type);
+      sortingType = type;
+    }
+
+    // Go back one folder level
     function goBack() {
       // If we are at root 'photos/', do nothing
       if (currentFolder === 'photos/') toggleNav();
@@ -180,6 +187,29 @@
           {#if currentFolder !== 'photos/'}
           <b class="p-2">{getFolderLabel(currentFolder)}</b>
         {/if}
+
+        <!-- sorting buttons -->
+         <button
+          class="md:ms-2 ms-auto p-1 px-2 mx-1 rounded hover:bg-gray-100 border border-transparent"
+          class:bg-gray-100={sortingType === 'none'}
+          on:click={() => selectSorting('none')}
+        >
+          All
+        </button>
+        <button
+          class="p-1 px-2 mx-1 rounded hover:bg-gray-100 border border-transparent"
+          class:bg-gray-100={sortingType === 'l'}
+          on:click={() => selectSorting('l')}
+        >
+          Landscapes
+        </button>
+        <button
+          class="p-1 px-2 ms-1 rounded hover:bg-gray-100 border border-transparent"
+          class:bg-gray-100={sortingType === 'p'}
+          on:click={() => selectSorting('p')}
+        >
+          Portraits
+        </button>
       </div>
 
         <!-- Folder list -->
