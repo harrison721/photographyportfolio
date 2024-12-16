@@ -17,7 +17,7 @@
     // Go to root folder
     function goHome() {
       selectFolder('photos/');
-      toggleNav();
+      isNavOpen = false;
     }
 
     //select folders
@@ -69,7 +69,7 @@
 </script>
 
 <!-- Fixed top bar with name, menu button, and folder navigation -->
-<div class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 shadow-sm z-20">
+<div class="top-0 left-0 w-full bg-white border-b border-gray-200 shadow-sm z-20">
   <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
     <!-- Clicking "Elijah Pollack" resets folder to 'photos/' -->
@@ -148,69 +148,75 @@
 
   <!-- Folder nav (drop-down style) -->
   {#if isNavOpen}
-  <div
-    class="bg-white border-t border-gray-200 shadow-md">
-      <div
-        class="max-w-7xl mx-auto px-4 py-2
-               flex flex-col  /* Mobile: vertical column */
-               md:flex-row   /* MD+: switch to horizontal row */
-               md:items-center
-               space-y-2     /* Mobile: vertical spacing between items */
-               md:space-y-0  /* Disable vertical spacing at MD+ */
-               md:space-x-4 /* MD+: horizontal spacing */"
-      >
-      <div class="flex items-center">
-        <!-- Back button -->
-        <button
-          class="p-2 rounded hover:bg-gray-100 border border-transparent flex items-center"
-          on:click={goBack}
-          aria-label="Go Back"
+    <div
+      class="bg-white border-t border-gray-200 shadow-md">
+        <div
+          class="max-w-7xl mx-auto px-4 py-2
+                flex flex-col  /* Mobile: vertical column */
+                md:flex-row   /* MD+: switch to horizontal row */
+                md:items-center
+                space-y-2     /* Mobile: vertical spacing between items */
+                md:space-y-0  /* Disable vertical spacing at MD+ */
+                md:space-x-1 /* MD+: horizontal spacing */"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div class="flex items-center">
+          <!-- Back button -->
+          <button
+            class="p-2 ps-0 rounded hover:bg-gray-100 border border-transparent flex items-center"
+            on:click={goBack}
+            aria-label="Go Back"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back
-        </button>
-  
-        <!-- Folder name -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Back
+          </button>
+    
+          <!-- Folder name -->
           {#if currentFolder !== 'photos/'}
-          <b class="p-2">{getFolderLabel(currentFolder)}</b>
-        {/if}
+            <b class="p-2">{getFolderLabel(currentFolder)}</b>
+          {/if}
 
-        <!-- sorting buttons -->
-         <button
-          class="md:ms-2 ms-auto p-1 px-2 mx-1 rounded hover:bg-gray-100 border border-transparent"
-          class:bg-gray-100={sortingType === 'none'}
-          on:click={() => selectSorting('none')}
-        >
-          All
-        </button>
-        <button
-          class="p-1 px-2 mx-1 rounded hover:bg-gray-100 border border-transparent"
-          class:bg-gray-100={sortingType === 'l'}
-          on:click={() => selectSorting('l')}
-        >
-          Landscapes
-        </button>
-        <button
-          class="p-1 px-2 ms-1 rounded hover:bg-gray-100 border border-transparent"
-          class:bg-gray-100={sortingType === 'p'}
-          on:click={() => selectSorting('p')}
-        >
-          Portraits
-        </button>
-      </div>
+          <!-- sorting buttons -->
+          <button
+            class="md:ms-2 ms-auto p-1 px-2 rounded-lg text-xs bg-black text-white border border-transparent hover:bg-white hover:text-black hover:border-black"
+            class:bg-white={sortingType === 'none'}
+            class:text-black={sortingType === 'none'}
+            class:border-black={sortingType === 'none'}
+            on:click={() => selectSorting('none')}
+          >
+            All
+          </button>
+          <button
+            class="p-1 px-2 mx-1 rounded-lg text-xs bg-black text-white border border-transparent hover:bg-white hover:text-black hover:border-black"
+            class:bg-white={sortingType === 'l'}
+            class:text-black={sortingType === 'l'}
+            class:border-black={sortingType === 'l'}
+            on:click={() => selectSorting('l')}
+          >
+            Landscapes
+          </button>
+          <button
+            class="p-1 px-2 mx-1 rounded-lg text-xs bg-black text-white border border-transparent hover:bg-white hover:text-black hover:border-black"
+            class:bg-white={sortingType === 'p'}
+            class:text-black={sortingType === 'p'}
+            class:border-black={sortingType === 'p'}
+            on:click={() => selectSorting('p')}
+          >
+            Portraits
+          </button>
+        </div>
 
         <!-- Folder list -->
         {#if currentFolder === 'photos/'}
@@ -236,6 +242,3 @@
     </div>
   {/if}
 </div>
-
-<!-- Spacing so page content doesn't hide under top nav -->
-<div style={isNavOpen ? "padding-top: 120.8px" : "padding-top: 62.4px"}></div>

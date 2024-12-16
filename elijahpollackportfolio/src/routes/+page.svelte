@@ -44,23 +44,21 @@
 
       // reorder DOM so picture folders stay together in rows
       // collumns based on screen size breakpoints. 3 collumns for desktop, 2 for tablet, 1 for mobile
-      const numColumns = window.innerWidth > 768 ? 3 : window.innerWidth > 640 ? 2 : 1;
-      if (numColumns > 1) {
+      const numColumns = window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1;
 
-        const numRows = Math.ceil(files.length / numColumns);
+      const numRows = Math.ceil(files.length / numColumns);
 
-        columns = Array(numColumns).fill(0).map(() => Array(numRows).fill(0));
-        
-        // Walk row by row
-        let i = 0;
-        for (let row = 0; row < numRows; row++) {
-          for (let col = 0; col < numColumns; col++) {
-            if (i < files.length) {
-              columns[col][row] = files[i];
-              i++;
-            } else {
-              columns[col][row] = {url: "none", folderName: "none", folderPath: "none", type: "none", path: "none", size: 0, lastModified: "none"};
-            }
+      columns = Array(numColumns).fill(0).map(() => Array(numRows).fill(0));
+      
+      // Walk row by row
+      let i = 0;
+      for (let row = 0; row < numRows; row++) {
+        for (let col = 0; col < numColumns; col++) {
+          if (i < files.length) {
+            columns[col][row] = files[i];
+            i++;
+          } else {
+            columns[col][row] = {url: "none", folderName: "none", folderPath: "none", type: "none", path: "none", size: 0, lastModified: "none"};
           }
         }
       }
@@ -88,10 +86,7 @@
 
     <!-- Gallery Grid -->
     <div class="pb-16"> <!-- Add bottom padding so content is visible above the footer -->
-      <GalleryGrid
-        {columns}
-        onFolderSelected={handleFolderSelected}
-      />
+      <GalleryGrid {columns}/>
     </div>
 
     <!-- Footer -->

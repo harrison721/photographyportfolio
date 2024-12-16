@@ -12,7 +12,8 @@ export interface FolderData {
   name: string;
 }
 
-const BASE_URL = `https://elijahpollackportfolio.sfo3.cdn.digitaloceanspaces.com`;
+const BASE_URL = `https://elijahpollackportfolio.sfo3.digitaloceanspaces.com`;
+const CDN_URL = `https://elijahpollackportfolio.sfo3.cdn.digitaloceanspaces.com`;
 
 /**
  * Fetches and parses the XML file listing from the DigitalOcean Space.
@@ -61,7 +62,7 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
       folders.push({ name: key });
     } else {
       files.push({
-        url: `${BASE_URL}/${key}`,
+        url: `${CDN_URL}/${key}`,
         path: `${key}`,
         folderPath: `${removeFileName(key)}/`,
         folderName: getFormattedFolderName(key),

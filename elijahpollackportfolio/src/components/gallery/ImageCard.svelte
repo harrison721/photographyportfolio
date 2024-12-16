@@ -1,6 +1,5 @@
 <script lang="ts">
   export let file;
-  export let onFolderSelected = (folderPath: string) => {};
   let showModal = false;
 
   const openModal = () => {
@@ -10,14 +9,9 @@
   const closeModal = () => {
     showModal = false;
   };
-
-  function selectFolder(folderPath: string) {
-      onFolderSelected(folderPath);
-      closeModal();
-  }
 </script>
 
-<div class="bg-white shadow-lg rounded-md overflow-hidden">
+<div class="relative bg-white shadow-lg rounded-md overflow-hidden group">
   <!-- svelte-ignore a11y_click_events_have_key_events -->
   <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <img
@@ -37,7 +31,7 @@
   >
     <!-- Remove max-w-3xl and w-full so container can shrink to fit -->
     <div
-      class="relative bg-white rounded-lg shadow-lg overflow-hidden group"
+      class="relative bg-white shadow-lg overflow-hidden"
       on:click|stopPropagation
     >
       <div class="relative">
@@ -49,13 +43,6 @@
           class="cursor-pointer max-h-[80vh] w-auto object-contain"
           on:click={closeModal}
         />
-        <!-- Overlay for image name -->
-        <div
-          class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-center py-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-          on:click={() => selectFolder(file.folderPath)}
-        >
-          {file.folderName}
-        </div>
       </div>
     </div>
 
