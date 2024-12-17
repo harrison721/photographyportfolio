@@ -192,7 +192,7 @@
           <button
             class={
               `p-1 px-2 md:mx-1 ms-auto rounded-lg text-xs border
-              ${sortingType === 'none' ? 'bg-white text-black border-black' : 'bg-black text-white border-transparent'}`
+              ${sortingType === 'none' ? 'bg-black text-white border-transparent' : 'bg-white text-black border-black'}`
             }
             on:click={() => selectSorting('none')}
           >
@@ -201,7 +201,7 @@
           <button
             class={
               `p-1 px-2 mx-1 rounded-lg text-xs border
-              ${sortingType === 'l' ? 'bg-white text-black border-black' : 'bg-black text-white border-transparent'}`
+              ${sortingType === 'l' ? 'bg-black text-white border-transparent' : 'bg-white text-black border-black'}`
             }
             on:click={() => selectSorting('l')}
           >
@@ -210,7 +210,7 @@
           <button
             class={
               `p-1 px-2 mx-1 rounded-lg text-xs border
-              ${sortingType === 'p' ? 'bg-white text-black border-black' : 'bg-black text-white border-transparent'}`
+              ${sortingType === 'p' ? 'bg-black text-white border-transparent' : 'bg-white text-black border-black'}`
             }
             on:click={() => selectSorting('p')}
           >
