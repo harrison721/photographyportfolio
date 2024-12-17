@@ -190,28 +190,28 @@
 
           <!-- sorting buttons -->
           <button
-            class="md:ms-2 ms-auto p-1 px-2 rounded-lg text-xs bg-black text-white border border-transparent hover:bg-white hover:text-black hover:border-black"
-            class:bg-white={sortingType === 'none'}
-            class:text-black={sortingType === 'none'}
-            class:border-black={sortingType === 'none'}
+            class={
+              `p-1 px-2 md:mx-1 ms-auto rounded-lg text-xs border
+              ${sortingType === 'none' ? 'bg-white text-black border-black' : 'bg-black text-white border-transparent'}`
+            }
             on:click={() => selectSorting('none')}
           >
             All
           </button>
           <button
-            class="p-1 px-2 mx-1 rounded-lg text-xs bg-black text-white border border-transparent hover:bg-white hover:text-black hover:border-black"
-            class:bg-white={sortingType === 'l'}
-            class:text-black={sortingType === 'l'}
-            class:border-black={sortingType === 'l'}
+            class={
+              `p-1 px-2 mx-1 rounded-lg text-xs border
+              ${sortingType === 'l' ? 'bg-white text-black border-black' : 'bg-black text-white border-transparent'}`
+            }
             on:click={() => selectSorting('l')}
           >
             Landscapes
           </button>
           <button
-            class="p-1 px-2 mx-1 rounded-lg text-xs bg-black text-white border border-transparent hover:bg-white hover:text-black hover:border-black"
-            class:bg-white={sortingType === 'p'}
-            class:text-black={sortingType === 'p'}
-            class:border-black={sortingType === 'p'}
+            class={
+              `p-1 px-2 mx-1 rounded-lg text-xs border
+              ${sortingType === 'p' ? 'bg-white text-black border-black' : 'bg-black text-white border-transparent'}`
+            }
             on:click={() => selectSorting('p')}
           >
             Portraits
