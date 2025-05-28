@@ -6,6 +6,7 @@ export interface FileData {
   size: number;
   lastModified: string;
   type?: string;
+  name: string;
 }
 
 export interface FolderData {
@@ -69,6 +70,7 @@ function parseXML(xml: string): { folders: FolderData[]; files: FileData[] } {
         size,
         lastModified,
         type: getFirstLetter(key),
+        name: key.split("/").pop() || "", // Extract the file name from the path
       });
     }
   });

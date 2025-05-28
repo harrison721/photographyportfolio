@@ -32,7 +32,9 @@
       currentFolder = folder;
   
       folders = data.folders.filter((f) => f.name.startsWith(folder) && f.name !== folder);
-      files = data.files.filter((f) => f.folderPath.startsWith(folder));
+      files = data.files
+        .filter((f) => f.folderPath.startsWith(folder))
+        .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })); // Sort files by name;
 
       /*if (sortingType !== "none") {
         files = files.filter((f) => f.type === sortingType);
@@ -58,12 +60,14 @@
             columns[col][row] = files[i];
             i++;
           } else {
-            columns[col][row] = {url: "none", folderName: "none", folderPath: "none", type: "none", path: "none", size: 0, lastModified: "none"};
+            columns[col][row] = {url: "none", folderName: "none", folderPath: "none", type: "none", path: "none", size: 0, lastModified: "none", name: "none"};
           }
         }
       }
 
       console.log("Loaded folder:", folder);
+      const fileNames = files.map(file => file.name).join(", ");
+      console.log("Files in folder:", fileNames);
 
     } catch (error) {
       console.error("Error loading folder data:", error);
