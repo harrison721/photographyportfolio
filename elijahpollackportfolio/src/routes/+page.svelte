@@ -3,15 +3,15 @@
   import { fetchData, type FileData, type FolderData } from "../utils/dataLoader.ts";
   import GalleryGrid from '../components/gallery/GalleryGrid.svelte';
   import Navbar from "../components/common/Navbar.svelte";
-  import Footer from "../components/common/Footer.svelte";
+  //import Footer from "../components/common/Footer.svelte";
   import '../app.css';
   
   let folders: FolderData[] = [];
   let files: FileData[] = [];
   let columns: FileData[][] = [];
-  let currentFolder = "photos/";
+  let currentFolder = "photos/Landscapes";
   let scrollContainer: HTMLDivElement;
-  let sortingType = "l";
+  //let sortingType = "l";
 
   onMount(() => {
     loadFolder(currentFolder);
@@ -21,10 +21,10 @@
     loadFolder(folderPath);
   }
 
-  function handleSelectedSorting(type: string) {
-    sortingType = type;
+  /*function handleSelectedSorting(type: string) {
+    //sortingType = type;
     loadFolder(currentFolder);
-  }
+  }*/
   
   async function loadFolder(folder: string) {
     try {
@@ -34,9 +34,9 @@
       folders = data.folders.filter((f) => f.name.startsWith(folder) && f.name !== folder);
       files = data.files.filter((f) => f.folderPath.startsWith(folder));
 
-      if (sortingType !== "none") {
+      /*if (sortingType !== "none") {
         files = files.filter((f) => f.type === sortingType);
-      }
+      }*/
 
       // reverse order of folders and files
       folders = folders.reverse();
@@ -63,6 +63,8 @@
         }
       }
 
+      console.log("Loaded folder:", folder);
+
     } catch (error) {
       console.error("Error loading folder data:", error);
     }
@@ -76,7 +78,6 @@
       {folders}
       {currentFolder}
       onFolderSelected={handleFolderSelected}
-      onSortingSelected={handleSelectedSorting}
     />
   </div>
   
@@ -90,6 +91,6 @@
     </div>
 
     <!-- Footer -->
-    <Footer {scrollContainer} />
+    <!--<Footer {scrollContainer} />-->
   </div>
 </div>

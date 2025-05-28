@@ -4,9 +4,9 @@
      */
     export let folders: any[] = [];
     export let currentFolder = 'photos/';
-    export let sortingType = 'l';
+    //export let sortingType = 'l';
     export let onFolderSelected = (folderPath: string) => {};
-    export let onSortingSelected = (type: string) => {};
+    //export let onSortingSelected = (type: string) => {};
 
     let isNavOpen = false; // Controls nav bar visibility (dropdown-style)
 
@@ -26,10 +26,10 @@
     }
 
     //select sorting
-    function selectSorting(type: string) {
+    /*function selectSorting(type: string) {
       onSortingSelected(type);
       sortingType = type;
-    }
+    }*/
 
     // Go back one folder level
     function goBack() {
@@ -44,16 +44,16 @@
     }
 
     // Derive top-level year folders, e.g. "photos/2019/", "photos/2020/", etc.
-    $: topLevelYears = folders.filter((folder) => {
+    $: topLevelFolder = folders.filter((folder) => {
       const split = folder.name.split('/').filter(Boolean);
       // For top-level, path segments will be ["photos", "YYYY"]
       return split.length === 2;
     });
 
-    // Show subfolders of the current folder (everything under e.g. "photos/2021/")
+    /* Show subfolders of the current folder (everything under e.g. "photos/2021/")
     $: subfolders = folders.filter((folder) => {
       return folder.name.startsWith(currentFolder) && folder.name !== currentFolder;
-    });
+    });*/
 
     /**
      * Extract just the last part of the folder name and replace dashes with spaces.
@@ -188,7 +188,7 @@
             <b class="p-2">{getFolderLabel(currentFolder)}</b>
           {/if}
 
-          <!-- sorting buttons -->
+          <!-- sorting buttons 
           <button
             class={
               `p-1 px-2 md:mx-1 ms-auto rounded-lg text-xs border
@@ -215,21 +215,12 @@
             on:click={() => selectSorting('p')}
           >
             Portraits
-          </button>
+          </button>-->
         </div>
 
         <!-- Folder list -->
         {#if currentFolder === 'photos/'}
-          {#each topLevelYears as folder}
-            <button
-              class="p-2 rounded hover:bg-gray-100 border border-transparent"
-              on:click={() => selectFolder(folder.name)}
-            >
-              {getFolderLabel(folder.name)}
-            </button>
-          {/each}
-        {:else}
-          {#each subfolders as folder}
+          {#each topLevelFolder as folder}
             <button
               class="p-2 rounded hover:bg-gray-100 border border-transparent"
               on:click={() => selectFolder(folder.name)}
@@ -238,6 +229,16 @@
             </button>
           {/each}
         {/if}
+        <!--{:else}
+          {#each topLevelFolder as folder}
+            <button
+              class="p-2 rounded hover:bg-gray-100 border border-transparent"
+              on:click={() => selectFolder(folder.name)}
+            >
+              {getFolderLabel(folder.name)}
+            </button>
+          {/each}
+        {/if}-->
       </div>
     </div>
   {/if}
