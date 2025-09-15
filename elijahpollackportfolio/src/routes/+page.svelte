@@ -3,13 +3,13 @@
   import { fetchData, type FileData, type FolderData } from "../utils/dataLoader.ts";
   import GalleryGrid from '../components/gallery/GalleryGrid.svelte';
   import Navbar from "../components/common/Navbar.svelte";
-  //import Footer from "../components/common/Footer.svelte";
+  import Footer from "../components/common/Footer.svelte";
   import '../app.css';
   
   let folders: FolderData[] = [];
   let files: FileData[] = [];
   let columns: FileData[][] = [];
-  let currentFolder = "photos/Landscapes";
+  let currentFolder = "photos";
   let scrollContainer: HTMLDivElement;
   //let sortingType = "l";
 
@@ -95,6 +95,6 @@
     </div>
 
     <!-- Footer -->
-    <!--<Footer {scrollContainer} />-->
+    <Footer {scrollContainer} />
   </div>
 </div>

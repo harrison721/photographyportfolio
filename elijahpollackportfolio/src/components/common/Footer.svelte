@@ -33,8 +33,8 @@
   >
     <p>
       Interested in prints? 
-      <a href="mailto:elipollack02@gmail.com" class="text-blue-400 hover:underline">
-        send an email to elipollack02@gmail.com
+      <a href="mailto:harrisonochieng721@gmail.com" class="text-blue-400 hover:underline">
+        send an email to harrisonochieng721@gmail.com
       </a>
     </p>
   </footer>
